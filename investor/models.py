@@ -1,5 +1,4 @@
 from ast import In
-from pyexpat import model
 from django.db import models
 from property.models import Property
 from user.models import Profile
@@ -36,6 +35,7 @@ class BuyNSell(models.Model):
     user = models.ForeignKey(
         Profile, on_delete=models.CASCADE)
     property = models.ForeignKey(Property, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
     price = models.DecimalField(
         decimal_places=2, max_digits=12, blank=True)
     status = models.BooleanField(default=True)  # True = buy, False = sell
