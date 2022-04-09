@@ -39,7 +39,6 @@ def invest(request, username,propertyid):
                     'data': data,
                 }
     
-    return render(request, 'property/invest.html', context)
 
     for buyer in sorted_buyers:
         for seller in sorted_sellers:
@@ -64,10 +63,7 @@ def invest(request, username,propertyid):
                     seller.delete()
                     break
 
-    return render(request, 'property/invest.html', {
-        'labels': labels,
-        'data': data,
-    })
+    return render(request, 'property/invest.html', context)    
 
 
 def allprop(request, ctgr):
