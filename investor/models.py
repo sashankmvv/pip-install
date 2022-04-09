@@ -25,3 +25,6 @@ class Investor(models.Model):
 
     def getRent(self):
         return json.loads(self.rent_received)
+
+    def __str__(self):
+        return self.investor.userAuth.username

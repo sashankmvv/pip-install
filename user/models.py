@@ -6,13 +6,13 @@ from django.contrib.auth.models import User
 
 def user_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/docs/email/<filename>
-    return 'docs/{0}/{1}'.format(instance.email, filename)
+    return 'docs/{0}/{1}'.format(instance.userAuth.email, filename)
 
 
 class Profile(models.Model):
     # userAuth = models.OneToOneField(User, on_delete=models.CASCADE, blank=True )
-    userAuth = models.ForeignKey(User, on_delete=models.CASCADE, default="" )
-    
+    userAuth = models.ForeignKey(User, on_delete=models.CASCADE, default="")
+
     # personal details
     aadhar_number = models.IntegerField(primary_key=True)
     pan_number = models.IntegerField()
@@ -36,4 +36,4 @@ class Profile(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return str(self.aadhar_number)
+        return str(self.userAuth.username)
