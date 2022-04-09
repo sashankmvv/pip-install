@@ -1,0 +1,35 @@
+{% extends "property/base.html"%}
+{% load static %} 
+    
+    {% block styles %}
+    <link rel="stylesheet" href="{% static 'property/all_properties.css' %}" />
+    {% endblock %} 
+{% block content %}
+<table class="table table-bordered table-hover ">
+    <thead>
+    <tr class="text-center">
+    <th>Property Name</th>
+    <th>Category</th>
+    <th>Price</th>
+    <!-- <th>Increase</th> -->
+  
+    
+  </tr>
+    </thead>
+    <tbody>   
+
+   
+   {% for prop in prop %}
+  
+   <tr class="clickable text-center" >
+       <td> {{ prop.property_name }} </td>
+       <td> {{ prop.category }} </td>
+       <td> {{ prop.current_price }} </td>
+       
+      
+       
+    </tr>
+  {% endfor %}
+  </tbody>
+   </table>
+{% endblock content %}
