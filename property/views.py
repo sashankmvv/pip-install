@@ -5,22 +5,22 @@ import ast
 def home(request):
      return render(request,'property/home.html')
 
-def invest(request):
+def invest(request,property):
      labels=[]
      data=[]
-     queryset=Property.objects.all()
-     print("queryset",queryset[0])
+     queryset=Property.objects.filter(propertyid=property).first()
+     
      # for investor in queryset:
      #      labels.append(investor.date)
      #      data.append(investor.purchase_price)
      
-     for x in queryset:
-          ps=  ast.literal_eval(x.price_series)
-          ds=  ast.literal_eval(x.date_series)
+     
+     ps=  ast.literal_eval(queryset.price_series)
+     ds=  ast.literal_eval(queryset.date_series)
           
-          for i in range(len(ps)):
-               data.append(ps[i])
-               labels.append(ds[i])
+     for i in range(len(ps)):
+          data.append(ps[i])
+          labels.append(ds[i])
      return render(request,'property/invest.html',{
           'labels':labels,
           'data':data,

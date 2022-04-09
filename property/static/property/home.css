@@ -37,13 +37,13 @@ a {
 
 .recommendations {
     padding-left: 5%;
-    padding-top: 2%;
-
+    padding-top: 5%;
+    
 }
 
 .cardrecommendations {
     margin-top: 1%;
-  
+    
     border-radius: 0px;
     box-shadow: none;
     margin-right: 3%;
