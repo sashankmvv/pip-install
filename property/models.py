@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import RegexValidator
+import json
 
 
 def dir_path(instance, filename):
@@ -35,6 +36,41 @@ class Property(models.Model):
     dilution = models.DecimalField(decimal_places=2, max_digits=4, blank=False)
     # 0 for not approved, 1 for approved
     approval_status = models.IntegerField(default=0)
+
+    price_series = models.CharField(max_length=1000, blank=True)
+    date_series = models.CharField(max_length=1000, blank=True)
+
+    def assignPrices(self, x):
+        """assigns list of prices for current property as a string
+
+        Args:
+            x (list): list of prices for current property
+        """
+        self.price_series = json.dumps(x)
+
+    def getPrices(self):
+        """returns list of prices for current property
+
+        Returns:
+            list: list of prices for current property
+        """
+        return json.loads(self.price_series)
+
+    def assignDates(self, x):
+        """assigns list of dates w.r.t price for current property as a string
+
+        Args:
+            x (list): list of dates for current property
+        """
+        self.time_series = json.dumps(x)
+
+    def getDates(self):
+        """assigns list of dates w.r.t price for current property as a string
+
+        Returns:
+            list: list of dates for current property
+        """
+        return json.loads(self.time_series)
 
 
 class Photos(models.Model):
