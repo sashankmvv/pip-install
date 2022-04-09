@@ -1,0 +1,14 @@
+/* canvas{
+
+    width:800px !important;
+    height:400px !important;
+  
+  } */
+
+  .chart-container {
+    width: 600px;
+    height:400px;
+    margin:auto;
+    margin-top: 20px;
+}
+

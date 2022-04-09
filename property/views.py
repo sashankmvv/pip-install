@@ -10,7 +10,7 @@ def home(request):
     return render(request, 'property/home.html')
 
 
-def invest(request, propertyid):
+def invest(request, username,propertyid):
     labels = []
     data = []
     queryset = Property.objects.filter(propertyid=propertyid).first()
@@ -33,11 +33,12 @@ def invest(request, propertyid):
 
     sorted_buyers = sorted(buyers, key=lambda x: x.datetime)
     sorted_sellers = sorted(sellers, key=lambda x: x.datetime)
-
-    return render(request, 'property/invest.html', {
-        'labels': labels,
-        'data': data,
-    })
+    context = {
+                    'labels' : labels,
+                    'data': data,
+                }
+    
+    return render(request, 'property/invest.html', context)
 
 
 def allprop(request, ctgr):
