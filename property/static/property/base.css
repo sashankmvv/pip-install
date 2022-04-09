@@ -3,13 +3,14 @@
     margin: 0;
     box-sizing: border-box;
     /* font-family: "Eb Garamond"; */
-    background-color: black;
+    
     color: white;
 
 }
 .navbar{
     box-shadow: 0px 8px 2px -6px rgba(255,255,255);
   color:white;
+  
     }
 nav .navbar-nav li a{
   color: white !important;
@@ -24,8 +25,8 @@ width:430px !important;
 
 }
 .search,.butt{
-  background-color:  rgb(43, 40, 40);
-  border-color: rgb(95, 95, 95);
+
+  
   margin-right: 8px;
   border-radius: 0px;
 }
@@ -85,8 +86,7 @@ width:430px !important;
 }
 .card-header{
   height: 60px;
-  background-color: black;
-  /* border-color: white; */
+  
   color: white;
   border-width: 3px;
   text-align: left;
@@ -94,7 +94,7 @@ width:430px !important;
  
 }
 .list-group-item{
-  background-color: black;
+  
   color: white;
   border: 2px solid  rgba(198,151,56,0.7);
   /* border-color: white; */
@@ -126,5 +126,5 @@ font-size: 16px;
 }
 .dropdown-item{
 background-color:  rgb(198,151,56);
-color: rgb(0, 0, 0);
+
 }

@@ -1,0 +1,172 @@
+{% extends "property/base.html"%}
+<!-- <div class="container " style="background-color:green;"> -->
+{% load static %} 
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'property/launch.css' %}" />
+{% endblock %} 
+
+{% block navbar %}
+<nav class="navbar navbar-expand-lg   py-3  p-5 " >
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'broker-login' %}"><img src="{% static 'broker/images/R (2).png' %} " width="226" height="37"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto" >
+              <li class="nav-item">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon">giogsiofsio</span>
+        </button>
+             <li class="btn11 mx-4">
+               <a href="{% url 'broker-login' %}"> <button class="btn1">Login/Signup</button></a>
+             </li>
+         
+                <li class="nav-item">
+                    <a class="nav-link px-3" href="#">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link px-3" href="#">Pricing</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link px-3" href="#">Support</a>
+                </li>
+            
+            </ul>
+            <!-- <form class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form> -->
+        </div>
+    </div>
+</nav>
+{% endblock navbar %}
+
+{% block content %}
+<section class="launch">
+  <div class="container">
+    <div class="row animatedimage">
+
+      <img src="{% static 'broker/images/home-page.jpg' %}" height="660" />
+
+      <div class="invest">Invest in
+
+      </div>
+      <div class="animatedtext">
+        Residential apartments
+      </div>
+      {% comment %} <div class="animatedtext">
+        Commercial properties
+      </div> {% endcomment %}
+      <div class="animatedtext">
+        Warehouse
+      </div>
+      {% comment %} <div class="animatedtext">
+        Plots
+      </div> {% endcomment %}
+
+    </div>
+
+    <div class="row aboutcompany py-5">
+
+      <div class="col-md-6">
+        <img src="{% static 'broker/images/lux1.jpg' %}" height="460">
+      </div>
+
+      <div class="col-6 textRemoda">
+
+        <p>
+        <h2><b>Welcome to Remoda</b> </h2>
+        </p>
+        <p>Invest in the most prestigious apartments with $0</p>
+      </div>
+
+
+    </div>
+
+    <div class="row  py-5">
+      <div class="col-md-6 whyinvest">
+        <h2><b>Why invest in residential apartments?</b></h2>
+      </div>
+
+      <div class="col-md-6 whyinvest">
+        <h4>
+          <ul style="list-style-type:disc">
+            <li>Low initial amount</li>
+            <li>Low risk</li>
+            <li>Guaranteed rental yield every month</li>
+
+          </ul>
+        </h4>
+      </div>
+
+
+    </div>
+    <div class="row container py-5 whychoose">
+      <div class="whychooseus py-3">
+        <h2><b>Why choose us?</b></h2>
+      </div>
+      <div class="card mx-2" style="width: 18rem;">
+        <div class="card-header">
+          Account opening charges
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">Start investing at &#8377 0</li>
+       
+        </ul>
+      </div>
+       <div class="card mx-2" style="width: 18rem;">
+        <div class="card-header">
+          Data analytics
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            We use data to pick the best investment options
+          </li>
+       
+        </ul>
+      </div>
+      <div class="card mx-2" style="width: 18rem;">
+        <div class="card-header">
+          Trusted investment options
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            Each apartment go through a 20+ checkpoints before getting listed.
+          </li>
+       
+        </ul>
+      </div><div class="card mx-2" style="width: 18rem;">
+        <div class="card-header">
+          Guaranteed rental yield
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            We keep only 10% of rental yield. Rest belongs to the shareholders.
+          </li>
+       </ul>
+      </div>
+      
+     
+      
+    
+
+
+
+    </div>
+  </div>
+
+
+  <!-- <div class="row  py-5">
+
+      <div class="col-md-6">
+        <div>24x7 Customer service</div>
+      </div>
+
+    </div> -->
+</section>
+
+{% endblock content %}
