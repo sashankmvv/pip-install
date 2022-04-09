@@ -69,11 +69,11 @@
             <div class="row g-0 recommendations">
                 <div class="flex">
                     <h2>
-                        Ultra Luxury Apartments<button
-                            class="btn-group btn-group-sm bd-highlight rounded-pill float-end" role=" group"
-                            aria-label="...">
-                            See all
-                        </button>
+                        Office Properties<a href="{% url 'AllProp' 'office-properties' %}">
+                            <button class="btn-group btn-group-sm bd-highlight float-end rounded-pill" role="group"
+                                aria-label="...">
+                                See all
+                            </button></a>
                     </h2>
                 </div>
                 <div class="card cardrecommendations col-lg-4 d-flex align-items-stretch" style="width: 18rem">
@@ -113,10 +113,11 @@
             </div>
             <div class="row g-0 recommendations">
                 <h2>
-                    Luxury Apartments<button class="btn-group btn-group-sm bd-highlight rounded-pill float-end"
-                        role=" group" aria-label="...">
-                        See all
-                    </button>
+                    Residential Apartments<a href="{% url 'AllProp' 'Residential-apartment' %}">
+                        <button class="btn-group btn-group-sm bd-highlight float-end rounded-pill" role="group"
+                            aria-label="...">
+                            See all
+                        </button></a>
                 </h2>
                 <div class="card cardrecommendations col-lg-4 d-flex align-items-stretch" style="width: 18rem">
                     <img class="card-img-top" src="https://www.bombayrealty.in/luximages/1-2icc.jpg"

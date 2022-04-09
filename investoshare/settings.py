@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'property',
     'user',
     'investor',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [

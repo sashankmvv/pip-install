@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -9,11 +10,10 @@ def user_directory_path(instance, filename):
 
 
 class Profile(models.Model):
+    # userAuth = models.OneToOneField(User, on_delete=models.CASCADE, blank=True )
+    userAuth = models.ForeignKey(User, on_delete=models.CASCADE, default="" )
+    
     # personal details
-    name = models.CharField(max_length=50)
-    email = models.EmailField(max_length=254)
-    password = models.CharField(max_length=50)
-    phone_number = models.IntegerField()
     aadhar_number = models.IntegerField(primary_key=True)
     pan_number = models.IntegerField()
     dob = models.DateField()

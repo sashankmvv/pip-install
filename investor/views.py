@@ -27,7 +27,7 @@ def get_holding(request, investor_id):
 
 def get_listing(request, investor_id):
     investor = Profile.objects.filter(aadhar_number=investor_id).first()
-    property = Property.objects.filter(investor=investor).first()
+    property = Property.objects.filter(owner=investor).first()
 
     context = {
         'property_name': property.property_name,
