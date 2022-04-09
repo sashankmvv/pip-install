@@ -79,6 +79,9 @@ class Property(models.Model):
         """
         return json.loads(self.time_series)
 
+    def __str__(self):
+        return self.property_name
+
 
 class Photos(models.Model):
     photo = models.FileField(upload_to=dir_path)
