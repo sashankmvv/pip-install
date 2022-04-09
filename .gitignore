@@ -13,4 +13,6 @@ lib
 lib64
 share/
 .venv/
+node_modules/
+**.json
 media*
