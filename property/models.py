@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import RegexValidator
+from user.models import Profile
 import json
 
 
@@ -11,7 +12,7 @@ def dir_path(instance, filename):
 
 
 class Property(models.Model):
-    property_name = models.CharField(max_length=100)
+    property_name = models.CharField(max_length=100, default="")
     phone_regex = RegexValidator(
         regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
 
@@ -25,7 +26,7 @@ class Property(models.Model):
         decimal_places=2, max_digits=12, blank=False)
     market_price = models.DecimalField(
         decimal_places=2, max_digits=12, blank=False)
-    owner = models.CharField(max_length=30, blank=False)
+    owner = models.ForeignKey(Profile, on_delete=models.CASCADE, blank=False)
     tenant = models.CharField(max_length=30, blank=False)
     rent = models.DecimalField(decimal_places=2, max_digits=7, blank=False)
     contact = models.CharField(
@@ -40,11 +41,11 @@ class Property(models.Model):
 
     price_series = models.CharField(max_length=1000, blank=True)
     date_series = models.CharField(max_length=1000, blank=True)
-    CATEGORY=(('warehouse','warehouse'),
-              ('office-properties', 'office-properties'),
-    ('Residential-apartment', 'Residential apartment'))
+    CATEGORY = (('warehouse', 'warehouse'),
+                ('office-properties', 'office-properties'),
+                ('Residential-apartment', 'Residential apartment'))
 
-    category= models.CharField(max_length=50,choices=CATEGORY,default='')
+    category = models.CharField(max_length=50, choices=CATEGORY, default='')
 
     def assignPrices(self, x):
         """assigns list of prices for current property as a string
