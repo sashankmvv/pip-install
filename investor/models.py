@@ -1,3 +1,5 @@
+from ast import In
+from pyexpat import model
 from django.db import models
 from property.models import Property
 from user.models import Profile
@@ -28,3 +30,13 @@ class Investor(models.Model):
 
     def __str__(self):
         return self.investor.userAuth.username
+
+
+class BuyNSell(models.Model):
+    user = models.ForeignKey(
+        Profile, on_delete=models.CASCADE)
+    property = models.ForeignKey(Property, on_delete=models.CASCADE)
+    price = models.DecimalField(
+        decimal_places=2, max_digits=12, blank=True)
+    status = models.BooleanField(default=True)  # True = buy, False = sell
+    datetime = models.DateTimeField(auto_now_add=True)

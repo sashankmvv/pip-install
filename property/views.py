@@ -1,30 +1,43 @@
+from operator import itemgetter
 from django.shortcuts import render
+from investor.models import BuyNSell
 from property.models import Property
 import ast
+import operator
+
 
 def home(request):
-     return render(request,'property/home.html')
+    return render(request, 'property/home.html')
 
-def invest(request,property):
-     labels=[]
-     data=[]
-     queryset=Property.objects.filter(propertyid=property).first()
-     
-     # for investor in queryset:
-     #      labels.append(investor.date)
-     #      data.append(investor.purchase_price)
-     
 
-     ps = ast.literal_eval(queryset.price_series)
-     ds = ast.literal_eval(queryset.date_series)
+def invest(request, propertyid):
+    labels = []
+    data = []
+    queryset = Property.objects.filter(propertyid=propertyid).first()
 
-     for i in range(len(ps)):
-          data.append(ps[i])
-          labels.append(ds[i])
-     return render(request, 'property/invest.html', {
-          'labels': labels,
-          'data': data,
-          })
+    # for investor in queryset:
+    #      labels.append(investor.date)
+    #      data.append(investor.purchase_price)
+
+    ps = ast.literal_eval(queryset.price_series)
+    ds = ast.literal_eval(queryset.date_series)
+
+    for i in range(len(ps)):
+        data.append(ps[i])
+        labels.append(ds[i])
+
+    property = Property.objects.filter(propertyid=propertyid).first()
+    buy_n_sellers = BuyNSell.objects.filter(property=property)
+    buyers = list(buy_n_sellers.filter(status=True))  # buyers
+    sellers = list(buy_n_sellers.filter(status=False))  # sellers
+
+    sorted_buyers = sorted(buyers, key=lambda x: x.datetime)
+    sorted_sellers = sorted(sellers, key=lambda x: x.datetime)
+
+    return render(request, 'property/invest.html', {
+        'labels': labels,
+        'data': data,
+    })
 
 
 def allprop(request, ctgr):

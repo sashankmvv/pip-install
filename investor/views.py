@@ -1,8 +1,9 @@
+import operator
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.views.generic import DetailView
-from investor.models import Investor
+from investor.models import BuyNSell, Investor
 from property.models import Property
 from user.models import Profile
 
@@ -39,3 +40,6 @@ def get_listing(request, investor_id):
     print(context)
     # return render(request, 'investor/holding.html', context)
     return HttpResponse(context)
+
+
+
