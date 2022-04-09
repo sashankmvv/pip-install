@@ -1,6 +1,7 @@
+from datetime import datetime
 from operator import itemgetter
 from django.shortcuts import render
-from investor.models import BuyNSell
+from investor.models import BuyNSell, Investor
 from property.models import Property
 import ast
 import operator
@@ -39,6 +40,34 @@ def invest(request, username,propertyid):
                 }
     
     return render(request, 'property/invest.html', context)
+
+    for buyer in sorted_buyers:
+        for seller in sorted_sellers:
+            if buyer.price == seller.price:
+                if seller.quantity >= buyer.quantity:
+                    seller.quantity = seller.quantity - buyer.quantity
+                    buyer.quantity = 0
+                    investor = Investor()
+                    investor.property = property
+                    investor.date = datetime.date()
+                    investor.purchase_price = buyer.price
+                    investor.rent_received = [0]
+                    investor.status = True
+                    investor.ownership_till = datetime.now()
+                    buyer.delete()
+                    break
+                elif seller.quantity < buyer.quantity:
+                    buyer.quantity = buyer.quantity - seller.quantity
+                    investor = Investor.objects.filter(investor=seller).first()
+                    investor.status = False
+                    seller.quantity = 0
+                    seller.delete()
+                    break
+
+    return render(request, 'property/invest.html', {
+        'labels': labels,
+        'data': data,
+    })
 
 
 def allprop(request, ctgr):
