@@ -1,0 +1,14 @@
+**/_pycache_/
+db.sqlite3
+Include/
+Lib/
+Scripts/
+*.cfg
+enable-venv.bat
+**/migrations/
+
+bin/
+include/
+lib
+lib64
+share/
