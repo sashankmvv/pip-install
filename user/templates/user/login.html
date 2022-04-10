@@ -1,0 +1,55 @@
+{% extends "user/base.html"%}
+<!-- <div class="container " style="background-color:green;"> -->
+{% load static %} {% block styles %}
+<link rel="stylesheet" href="{% static 'user/style_login.css' %}" />
+{% endblock %} {% block content %}
+<section class="login">
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-7">
+                <img class="imgg" src="{% static 'user/images/francesca-tosolini-b9VOMGQdpeM-unsplash.jpg' %}"
+                    height="600" width="900">
+                {% comment %} <h1>Invest in Real Estate</h1>
+                <h6>Start your real estate journey with just ₹1000</h6> {% endcomment %}
+
+            </div>
+
+
+            <div class="col-5 text-center py-5 login-ele">
+                <form method="POST">
+            {% csrf_token %}
+                <div class="login-sub">
+                    <h2>LOGIN</h2>
+                </div>
+                <form>
+                    <div class="form-row py-3 pt-3">
+                        <div class="offset-1 col-lg-10">
+                            <input type="text" class="inp" name="username" placeholder="Username" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="offset-1 col-lg-10">
+                            <input type="password" class="inp" name="password" placeholder="Password" />
+                        </div>
+                    </div>
+                    <div class="form-row py-2">
+                        <div class="offset-1 col-lg-10">
+                            <div class="form-group">
+                            <input type="submit" value="Sign In" class="btn1">
+                            </div>
+                            <!-- <p class="Forgot">Forgot Password?<span><a href="#">Click here</a></span>
+                            </p> -->
+
+                            <p class="Signup">
+                               
+                            </p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}
