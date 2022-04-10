@@ -1,0 +1,38 @@
+{% extends "property/base.html"%}
+{% load static %} 
+    {% block styles %}
+    <link rel="stylesheet" href="{% static 'property/investments.css' %}" />
+    {% endblock %} 
+{% block content %}
+
+<table class="table table-bordered table-hover ">
+    <thead>
+    <tr class="text-center">
+    <th>Property Name</th>
+    <th>Purchase Price</th>
+    <th>Purchase date</th>
+    <th>Current price</th>
+    <th>Profit/loss</th>
+    <!-- <th>Increase</th> -->
+  
+    
+  </tr>
+    </thead>
+    <tbody>   
+
+   
+   {% for inv,pro in investor %}
+  
+   <tr class="clickable text-center" >
+       <td> {{ inv.property_name }} </td>
+       <td> {{ inv.purchase_price }} </td>
+       <td> {{ inv.purchase_date }} </td>
+       <td>{{ inv.current_price }} </td>
+       <td>{{pro}}</td>
+      
+       
+    </tr>
+  {% endfor %}
+  </tbody>
+   </table>
+{% endblock content %}

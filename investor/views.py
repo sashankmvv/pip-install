@@ -12,34 +12,41 @@ from user.models import Profile
 
 def get_holding(request, investor_id):
     investor = Profile.objects.filter(aadhar_number=investor_id).first()
-    investor = Investor.objects.filter(investor=investor).first()
+    investor = Investor.objects.filter(investor=investor)
+    owner = Profile.objects.filter(aadhar_number=investor_id)
+    property_list = Property.objects.filter(owner=owner)
+    print(investor)
+    for inv in investor:
+        print(inv.current_price)
+    profit_loss = [inv.current_price-inv.purchase_price for inv in investor]
+    print(profit_loss)
+
+    investor3 = Profile.objects.filter(aadhar_number=investor_id).first()
+    print(investor3.aadhar_number)
+
 
     context = {
-        'property_name': investor.property.property_name,
-        'purchase_price': investor.purchase_price,
-        'purchase_date': investor.date,
-        'current_price': investor.property.current_price,
+        'request':investor3,
+       'investor':zip(investor,profit_loss),
+       'investor_listing': property_list
     }
 
-    print(context)
     # return render(request, 'investor/holding.html', context)
-    return HttpResponse(context)
+    return render(request, 'investor/investments.html', context)
 
 
-def get_listing(request, investor_id):
-    owner = Profile.objects.filter(aadhar_number=investor_id).first()
-    property = Property.objects.filter(owner=owner).first()
+# def get_listing(request, investor_id):
+#     owner = Profile.objects.filter(aadhar_number=investor_id)
+#     property = Property.objects.filter(owner=owner)
 
-    context = {
-        'property_name': property.property_name,
-        'listing_price': property.listing_price,
-        'current_price': property.current_price,
-        'market_price': property.market_price,
-    }
+#     context = {
+#         'investor_listing':property
 
-    print(context)
-    # return render(request, 'investor/holding.html', context)
-    return HttpResponse(context)
+#     }
+
+#     print(context)
+#     # return render(request, 'investor/holding.html', context)
+#     return  render(request, 'investor/investments.html', context)
 
 def buy(request,username,property):
     property = Property.objects.filter(propertyid=property).first()
