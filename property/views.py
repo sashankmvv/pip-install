@@ -86,6 +86,8 @@ def invest(request,propertyid):
     
     if request.method == 'POST':
         buy(request,property)
+    # if request.method == 'POST':
+    #     sell(request,property)
 
     return render(request, 'property/invest.html', context)
 
@@ -102,18 +104,28 @@ def buy(request,property):
     
     
     if request.method == 'POST':
-        if request.POST.get('price') and request.POST.get('quantity'):
+        if request.POST.get('buyprice') and request.POST.get('buyquantity'):
             post=BuyNSell()
             post.user=user
             post.property=property
-            post.quantity=request.POST.get('quantity')
-            post.price=request.POST.get('price')
+            post.quantity=request.POST.get('buyquantity')
+            post.price=request.POST.get('buyprice')
             post.status=True
             post.save()
             context = {
                     'buyprop' : post,
                 }
             return render(request, 'property/invest.html', context)  
-    return render(request, 'property/home.html')  
-
-
+        elif request.POST.get('sellprice') and request.POST.get('sellquantity'):
+            post=BuyNSell()
+            post.user=user
+            post.property=property
+            post.quantity=request.POST.get('sellquantity')
+            post.price=request.POST.get('sellprice')
+            post.status=False
+            post.save()
+            context = {
+                    'sellprop' : post,
+                }
+            return render(request, 'property/invest.html', context)  
+    return render(request, 'property/home.html') 
