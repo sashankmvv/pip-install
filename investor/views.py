@@ -1,8 +1,9 @@
+import operator
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.views.generic import DetailView
-from investor.models import Investor
+from investor.models import BuyNSell, Investor
 from property.models import Property
 from user.models import Profile
 
@@ -39,3 +40,36 @@ def get_listing(request, investor_id):
     print(context)
     # return render(request, 'investor/holding.html', context)
     return HttpResponse(context)
+
+def buy(request,username,property):
+    property = Property.objects.filter(propertyid=property).first()
+    if request.method == 'POST':
+        if request.POST.get('price'):
+            post=BuyNSell()
+            post.user=username
+            post.property=property.propertyid
+            post.price=request.POST.get('price')
+            post.status=True
+            post.save()
+            context = {
+                    'buyprop' : post,
+                }
+            return render(request, 'property/invest.html', context)  
+
+def sell(request,username,property):
+    property = Property.objects.filter(propertyid=property).first()
+    if request.method == 'POST':
+        if request.POST.get('price'):
+            post=BuyNSell()
+            post.user=username
+            post.property=property.propertyid
+            post.price=request.POST.get('price')
+            post.status=False
+            post.save()
+            context = {
+                    'sellprop' : post,
+                }
+            return render(request, 'property/invest.html', context)  
+
+
+

@@ -3,7 +3,7 @@
 {% load static %} 
 
 {% block styles %}
-<link rel="stylesheet" href="{% static 'property/launch.css' %}" />
+<link rel="stylesheet" href="{% static 'property/invest.css' %}" />
 {% endblock %} 
 
 {% block navbar %}
@@ -11,8 +11,10 @@
 {% endblock navbar %}
 
 {% block content %}
-<section class="invest">
-    <div>
+<section >
+    <div class="chart-container">
+        <h2 style="text-align: center;">ABCD</h2>
+        <h5 style="text-align: center;">Rs. 1234</h5>
         <canvas id="myChart"></canvas>
     </div>
        
@@ -50,6 +52,8 @@ const myChart = new Chart(ctx, {
         }]
     },
     options: {
+        
+        maintainAspectRatio: false,
         scales: {
             y: {
                 beginAtZero: true
