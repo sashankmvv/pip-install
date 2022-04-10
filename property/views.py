@@ -29,7 +29,7 @@ def home(request):
     return render(request, 'property/home.html', context)
 
 
-def invest(request, username, propertyid):
+def invest(request, propertyid):
     labels = []
     data = []
     queryset = Property.objects.filter(propertyid=propertyid).first()
