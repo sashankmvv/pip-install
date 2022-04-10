@@ -12,25 +12,27 @@ from user.models import Profile
 
 def get_holding(request, investor_id):
     investor = Profile.objects.filter(aadhar_number=investor_id).first()
+    inv1=investor
     investor = Investor.objects.filter(investor=investor)
-    owner = Profile.objects.filter(aadhar_number=investor_id)
+    owner = Profile.objects.filter(aadhar_number=investor_id).first()
     property_list = Property.objects.filter(owner=owner)
-    print(investor)
-    for inv in investor:
-        print(inv.current_price)
-    profit_loss = [inv.current_price-inv.purchase_price for inv in investor]
-    print(profit_loss)
-
+    print(property_list)
+    for inv,x in zip(investor,property_list):
+        print(x.current_price)
+    print(type(inv.purchase_price))
+    profit_loss = [int(x.current_price-inv.purchase_price) for inv,x in zip(investor,property_list)]
+    
     investor3 = Profile.objects.filter(aadhar_number=investor_id).first()
     print(investor3.aadhar_number)
 
 
     context = {
         'request':investor3,
-       'investor':zip(investor,profit_loss),
-       'investor_listing': property_list
+       'pl':zip(profit_loss,property_list),
+       'investor':Investor.objects.filter(investor=inv1).first()
+    #    'investor_listing': property_list
     }
-
+    
     # return render(request, 'investor/holding.html', context)
     return render(request, 'investor/investments.html', context)
 

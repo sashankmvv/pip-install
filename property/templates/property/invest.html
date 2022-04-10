@@ -1,30 +1,30 @@
 {% extends "property/base.html"%}
 <!-- <div class="container " style="background-color:green;"> -->
-{% load static %} 
+{% load static %}
 
 {% block styles %}
 <link rel="stylesheet" href="{% static 'property/invest.css' %}" />
-{% endblock %} 
+{% endblock %}
 
 {% block navbar %}
 
 {% endblock navbar %}
 
 {% block content %}
-<section >
+<section>
     <div class="chart-container">
         <h2 style="text-align: center;">{{property.property_name}}</h2>
         <h5 style="text-align: center;">Rs. {{property.current_price}}</h5>
         <canvas id="myChart"></canvas>
     </div>
-       
+
 </section>
 
 <div class="container">
     <div class="row">
         <div class="col-lg-6 mb-4">
             <div class="card">
-                
+
 
                 <div class="card-body">
                     <h5 class="card-title">Buy</h5>
@@ -34,28 +34,28 @@
                             <label class="col-lg-6 col-form-label form-control-label">Quantity</label>
                             <div class="col-lg-6">
                                 <input class="form-control" type="text" name="buyquantity">
-                              </div>
+                            </div>
                         </div>
-                        
+
                         <div class="form-group row">
                             <label class="col-lg-6 col-form-label form-control-label">Price</label>
                             <div class="col-lg-6">
                                 <input class="form-control" type="text" name="buyprice">
-                              </div>
+                            </div>
                         </div>
                         <div class="col-lg-9">
-            
+
                             <input class=" btn" type="submit" value="Buy">
-    </div>
+                        </div>
                     </form>
-                   
-                 
+
+
                 </div>
             </div>
         </div>
         <div class="col-lg-6 mb-4">
             <div class="card">
-            
+
                 <div class="card-body">
                     <h5 class="card-title">Sell</h5>
                     <form autocomplete="off" class="form" role="form" action="" method="POST">
@@ -64,22 +64,28 @@
                             <label class="col-lg-6 col-form-label form-control-label">Quantity</label>
                             <div class="col-lg-6">
                                 <input class="form-control" type="text" name="sellquantity">
-                              </div>
+                            </div>
                         </div>
-                        
+
                         <div class="form-group row">
                             <label class="col-lg-6 col-form-label form-control-label">Price</label>
                             <div class="col-lg-6">
                                 <input class="form-control" type="text" name="sellprice">
-                              </div>
+                            </div>
                         </div>
                         <div class="col-lg-9">
-            
+
                             <input class=" btn" type="submit" value="Sell">
-    </div>
+                        </div>
+                        <div class="col-lg-9">
+
+                            <input class=" btn" type="submit" value="Sell">
+                        </div>
                     </form>
-                   
-                 
+                    <a href="#" class="btn btn-outline-primary btn-sm">
+                        Sell
+                    </a>
+
                 </div>
             </div>
         </div>
@@ -90,37 +96,37 @@
 
 {% block scripts%}
 <script>
-const ctx = document.getElementById('myChart').getContext('2d');
-const myChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: {{labels|safe}},
-        datasets: [{
-            label: 'Price over time',
-            data: {{data|safe}},
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: {{ labels| safe}},
+    datasets: [{
+        label: 'Price over time',
+        data: {{ data| safe}},
+        backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 206, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+        'rgba(255, 159, 64, 0.2)'
+    ],
+        borderColor: [
+        'rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)',
+        'rgba(255, 159, 64, 1)'
+    ],
+        borderWidth: 1
         }]
     },
     options: {
-        
+
         maintainAspectRatio: false,
-        scales: {
+            scales: {
             y: {
                 beginAtZero: true
             }
@@ -129,9 +135,9 @@ const myChart = new Chart(ctx, {
 });
 </script>
 <script>
-const myChart = new Chart(
-    document.getElementById('myChart'),
-    config
-  );
-</script>    
+    const myChart = new Chart(
+        document.getElementById('myChart'),
+        config
+    );
+</script>
 {% endblock scripts%}

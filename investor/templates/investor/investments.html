@@ -21,14 +21,14 @@
     <tbody>   
 
    
-   {% for inv,pro in investor %}
-  
+   {% for inv,pro in pl %}
+    
    <tr class="clickable text-center" >
-       <td> {{ inv.property_name }} </td>
-       <td> {{ inv.purchase_price }} </td>
-       <td> {{ inv.purchase_date }} </td>
-       <td>{{ inv.current_price }} </td>
-       <td>{{pro}}</td>
+       <td> {{ pro.property_name }} </td>
+       <td> {{ investor.purchase_price }} </td>
+       <td> {{ investor.date }} </td>
+       <td>{{ pro.current_price }} </td>
+       <td>{{inv}}</td>
       
        
     </tr>
