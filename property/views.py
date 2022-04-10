@@ -165,16 +165,28 @@ def buy(request, property):
     user = Profile.objects.filter(userAuth=user).first()
 
     if request.method == 'POST':
-        if request.POST.get('price') and request.POST.get('quantity'):
-            post = BuyNSell()
-            post.user = user
-            post.property = property
-            post.quantity = request.POST.get('quantity')
-            post.price = request.POST.get('price')
-            post.status = True
+        if request.POST.get('buyprice') and request.POST.get('buyquantity'):
+            post=BuyNSell()
+            post.user=user
+            post.property=property
+            post.quantity=request.POST.get('buyquantity')
+            post.price=request.POST.get('buyprice')
+            post.status=True
             post.save()
             context = {
-                'buyprop': post,
-            }
-            return render(request, 'property/invest.html', context)
-    return render(request, 'property/home.html')
+                    'buyprop' : post,
+                }
+            return render(request, 'property/invest.html', context)  
+        elif request.POST.get('sellprice') and request.POST.get('sellquantity'):
+            post=BuyNSell()
+            post.user=user
+            post.property=property
+            post.quantity=request.POST.get('sellquantity')
+            post.price=request.POST.get('sellprice')
+            post.status=False
+            post.save()
+            context = {
+                    'sellprop' : post,
+                }
+            return render(request, 'property/invest.html', context)  
+    return render(request, 'property/home.html') 
