@@ -1,7 +1,7 @@
 import datetime
 from operator import itemgetter
 from user.models import Profile
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from property.models import Property, Photos
 import random
 from investor.models import BuyNSell, Investor
@@ -29,7 +29,8 @@ def home(request):
     return render(request, 'property/home.html', context)
 
 
-def invest(request, username, propertyid):
+def invest(request, propertyid):
+    print("abc")
     labels = []
     data = []
     queryset = Property.objects.filter(propertyid=propertyid).first()
@@ -44,15 +45,8 @@ def invest(request, username, propertyid):
     for i in range(len(ps)):
         data.append(ps[i])
         labels.append(ds[i])
-
     property = Property.objects.filter(propertyid=propertyid).first()
-    print(property)
-    buy_n_sellers = BuyNSell.objects.filter(property=property)
-    buyers = list(buy_n_sellers.filter(status=True))  # buyers
-    sellers = list(buy_n_sellers.filter(status=False))  # sellers
 
-    sorted_buyers = sorted(buyers, key=lambda x: x.datetime)
-    sorted_sellers = sorted(sellers, key=lambda x: x.datetime)
     user = request.user
     context = {
         'property': property,
@@ -61,91 +55,110 @@ def invest(request, username, propertyid):
         'user': user,
     }
 
-    print(buy_n_sellers)
+#     property = Property.objects.filter(propertyid=propertyid).first()
+#     print(property)
+#     buy_n_sellers = BuyNSell.objects.filter(property=property)
+#     buyers = list(buy_n_sellers.filter(status=True))  # buyers
+#     sellers = list(buy_n_sellers.filter(status=False))  # sellers
 
-    print("Inside match logic : ")
+#     sorted_buyers = sorted(buyers, key=lambda x: x.datetime)
+#     sorted_sellers = sorted(sellers, key=lambda x: x.datetime)
 
-    for buyer in sorted_buyers:
-        for seller in sorted_sellers:
-            if buyer.price == seller.price:
-                if seller.quantity > buyer.quantity:
-                    seller.quantity = seller.quantity - buyer.quantity
-                    investor = Investor()
-                    investor.property = property
-                    investor.investor = buyer.user
-                    investor.date = datetime.date.today()
-                    investor.purchase_price = buyer.price
-                    investor.rent_received = 0
-                    investor.status = True
-                    investor.ownership_till = datetime.datetime.now()
-                    investor.save()
+#     print(sorted_buyers, sorted_sellers)
 
-                    property.current_price = buyer.price
-                    prices = property.getPrices()
-                    prices.append(float(buyer.price))
-                    print(prices)
-                    property.assignPrices(prices)
+#     print("Inside match logic : ")
 
-                    dates = property.getPrices()
-                    dates.append(str(datetime.datetime.now()))
-                    print(dates)
-                    property.assignDates(dates)
-                    buyer.delete()
-                    break
-                elif seller.quantity < buyer.quantity:
-                    buyer.quantity = buyer.quantity - seller.quantity
-                    investor = Investor.objects.filter(
-                        investor=seller.user).first()
-                    investor.status = False
-                    investor.save()
+#     for buyer in sorted_buyers:
+#         for seller in sorted_sellers:
+#             print(buyer.price, seller.price)
+#             if buyer.price == seller.price:
+#                 if seller.quantity > buyer.quantity:
+#                     seller.quantity = seller.quantity - buyer.quantity
+#                     investor = Investor()
+#                     investor.property = property
+#                     investor.investor = buyer.user
+#                     investor.date = datetime.date.today()
+#                     investor.purchase_price = buyer.price
+#                     investor.rent_received = 0
+#                     investor.status = True
+#                     investor.ownership_till = datetime.datetime.now()
+#                     investor.save()
 
-                    seller.quantity = 0
+#                     property.current_price = buyer.price
+#                     prices = property.getPrices()
+#                     prices.append(float(buyer.price))
+#                     print(prices)
+#                     property.assignPrices(prices)
 
-                    property.current_price = buyer.price
-                    prices = property.getPrices()
-                    prices.append(float(buyer.price))
-                    property.assignPrices(prices)
+#                     dates = property.getPrices()
+#                     dates.append(str(datetime.datetime.now()))
+#                     print(dates)
+#                     property.assignDates(dates)
+#                     property.save()
 
-                    dates = property.getPrices()
-                    dates.append(str(datetime.datetime.now()))
-                    property.assignDates(dates)
+#                     buyer.delete()
+#                     break
+#                 elif seller.quantity < buyer.quantity:
+#                     buyer.quantity = buyer.quantity - seller.quantity
+#                     investor = Investor.objects.filter(
+#                         investor=seller.user).first()
+#                     investor.status = False
+#                     investor.save()
 
-                    seller.delete()
-                    break
-                else:
-                    seller.quantity = seller.quantity - buyer.quantity
-                    buyer.quantity += seller.quantity
+#                     seller.quantity = 0
 
-                    investor = Investor.objects.filter(
-                        investor=seller.user).first()
-                    investor.status = False
-                    investor.save()
-                    seller.quantity = 0
+#                     property.current_price = buyer.price
+#                     prices = property.getPrices()
+#                     prices.append(float(buyer.price))
+#                     property.assignPrices(prices)
 
-                    investor = Investor()
-                    investor.property = property
-                    investor.investor = buyer.user
-                    investor.date = datetime.date.today()
-                    investor.purchase_price = buyer.price
-                    investor.rent_received = 0
-                    investor.status = True
-                    investor.ownership_till = datetime.datetime.now()
-                    investor.save()
+#                     dates = property.getPrices()
+#                     dates.append(str(datetime.datetime.now()))
+#                     property.assignDates(dates)
+#                     property.save()
 
-                    property.current_price = buyer.price
-                    prices = property.getPrices()
-                    prices.append(float(buyer.price))
-                    print(prices)
-                    property.assignPrices(prices)
+#                     seller.delete()
+#                     break
+#                 elif seller.quantity == buyer.quantity:
+#                     seller.quantity = seller.quantity - buyer.quantity
+#                     buyer.quantity += seller.quantity
 
-                    dates = property.getPrices()
-                    dates.append(str(datetime.datetime.now()))
-                    print(dates)
-                    property.assignDates(dates)
+#                     investor = Investor.objects.filter(
+#                         investor=seller.user).first()
+#                     print(investor)
 
-                    buyer.delete()
-                    seller.delete()
-                    break
+#                     investor.status = False
+#                     investor.save()
+#                     seller.quantity = 0
+
+#                     investor = Investor()
+#                     investor.property = property
+#                     investor.investor = buyer.user
+#                     investor.date = datetime.date.today()
+#                     investor.purchase_price = buyer.price
+#                     investor.rent_received = 0
+#                     investor.status = True
+#                     investor.ownership_till = datetime.datetime.now()
+#                     investor.save()
+
+#                     property.current_price = buyer.price
+#                     prices = property.getPrices()
+#                     prices.append(float(buyer.price))
+#                     print(prices)
+#                     property.assignPrices(prices)
+
+#                     dates = property.getPrices()
+#                     dates.append(str(datetime.datetime.now()))
+#                     print(dates)
+#                     property.assignDates(dates)
+#                     print(property.current_price)
+#                     property.save()
+
+#                     print(buyer)
+#                     buyer.delete()
+#                     print(seller)
+#                     seller.delete()
+#                     break
 
     if request.method == 'POST':
         buy(request, property)
@@ -165,16 +178,144 @@ def buy(request, property):
     user = Profile.objects.filter(userAuth=user).first()
 
     if request.method == 'POST':
-        if request.POST.get('price') and request.POST.get('quantity'):
+        if request.POST.get('buyprice') and request.POST.get('buyquantity'):
             post = BuyNSell()
             post.user = user
             post.property = property
-            post.quantity = request.POST.get('quantity')
-            post.price = request.POST.get('price')
+            post.quantity = request.POST.get('buyquantity')
+            post.price = request.POST.get('buyprice')
             post.status = True
             post.save()
             context = {
                 'buyprop': post,
             }
+            match(request, property.propertyid)
+
+            user = request.user
+            user = Profile.objects.filter(userAuth=user).first()
+            context = {
+                'buyprop': post,
+            }
             return render(request, 'property/invest.html', context)
-    return render(request, 'property/home.html')
+
+        elif request.POST.get('sellprice') and request.POST.get('sellquantity'):
+            post = BuyNSell()
+            post.user = user
+            post.property = property
+            post.quantity = request.POST.get('sellquantity')
+            post.price = request.POST.get('sellprice')
+            post.status = False
+            post.save()
+            context = {
+                'sellprop': post,
+            }
+            match(request, property.propertyid)
+
+            return render(request, 'property/invest.html', context)
+
+
+def match(request, propertyid):
+    property = Property.objects.filter(propertyid=propertyid).first()
+    print(property)
+    buy_n_sellers = BuyNSell.objects.filter(property=property)
+    buyers = list(buy_n_sellers.filter(status=True))  # buyers
+    sellers = list(buy_n_sellers.filter(status=False))  # sellers
+
+    sorted_buyers = sorted(buyers, key=lambda x: x.datetime)
+    sorted_sellers = sorted(sellers, key=lambda x: x.datetime)
+
+    print(sorted_buyers, sorted_sellers)
+
+    print("Inside match logic : ")
+
+    for buyer in sorted_buyers:
+        for seller in sorted_sellers:
+            print(buyer.price, seller.price)
+            if buyer.price == seller.price:
+                if seller.quantity > buyer.quantity:
+                    seller.quantity = seller.quantity - buyer.quantity
+                    investor = Investor()
+                    investor.property = property
+                    investor.investor = buyer.user
+                    investor.date = datetime.date.today()
+                    investor.purchase_price = buyer.price
+                    investor.rent_received = 0
+                    investor.status = True
+                    investor.ownership_till = datetime.datetime.now()
+                    investor.save()
+
+                    property.current_price = buyer.price
+                    prices = property.getPrices()
+                    prices.append(float(buyer.price))
+                    print(prices)
+                    property.assignPrices(prices)
+
+                    dates = property.getDates()
+                    dates.append(str(datetime.datetime.now()))
+                    print(dates)
+                    property.assignDates(dates)
+                    property.save()
+
+                    buyer.delete()
+                    break
+                elif seller.quantity < buyer.quantity:
+                    buyer.quantity = buyer.quantity - seller.quantity
+                    investor = Investor.objects.filter(
+                        investor=seller.user).first()
+                    investor.status = False
+                    investor.save()
+
+                    seller.quantity = 0
+
+                    property.current_price = buyer.price
+                    prices = property.getPrices()
+                    prices.append(float(buyer.price))
+                    property.assignPrices(prices)
+
+                    dates = property.getDates()
+                    dates.append(str(datetime.datetime.now()))
+                    property.assignDates(dates)
+                    property.save()
+
+                    seller.delete()
+                    break
+                elif seller.quantity == buyer.quantity:
+                    seller.quantity = seller.quantity - buyer.quantity
+                    buyer.quantity += seller.quantity
+
+                    investor = Investor.objects.filter(
+                        investor=seller.user).first()
+                    print(investor)
+
+                    investor.status = False
+                    investor.save()
+                    seller.quantity = 0
+
+                    investor = Investor()
+                    investor.property = property
+                    investor.investor = buyer.user
+                    investor.date = datetime.date.today()
+                    investor.purchase_price = buyer.price
+                    investor.rent_received = 0
+                    investor.status = True
+                    investor.ownership_till = datetime.datetime.now()
+                    investor.save()
+
+                    property.current_price = buyer.price
+                    prices = property.getPrices()
+                    prices.append(float(buyer.price))
+                    print(prices)
+                    property.assignPrices(prices)
+
+                    dates = property.getDates()
+                    dates.append(str(datetime.datetime.now()))
+                    print(dates)
+                    property.assignDates(dates)
+                    print(property.current_price)
+                    property.save()
+
+                    print(buyer)
+                    buyer.delete()
+                    print(seller)
+                    seller.delete()
+                    break
