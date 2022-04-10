@@ -4,7 +4,9 @@
     height:400px !important;
   
   } */
-
+*{
+    color: black;
+}
   .chart-container {
     width: 600px;
     height:400px;
