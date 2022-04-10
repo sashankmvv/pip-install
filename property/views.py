@@ -1,4 +1,4 @@
-from datetime import datetime
+import datetime
 from operator import itemgetter
 from django.shortcuts import render
 from investor.models import BuyNSell, Investor
@@ -11,7 +11,7 @@ def home(request):
     return render(request, 'property/home.html')
 
 
-def invest(request, username,propertyid):
+def invest(request, username, propertyid):
     labels = []
     data = []
     queryset = Property.objects.filter(propertyid=propertyid).first()
@@ -35,11 +35,11 @@ def invest(request, username,propertyid):
     sorted_buyers = sorted(buyers, key=lambda x: x.datetime)
     sorted_sellers = sorted(sellers, key=lambda x: x.datetime)
     context = {
-                    'labels' : labels,
-                    'data': data,
-                }
-    
+        'labels': labels,
+        'data': data,
+    }
 
+    print("Inside match logic : ")
     for buyer in sorted_buyers:
         for seller in sorted_sellers:
             if buyer.price == seller.price:
@@ -48,11 +48,24 @@ def invest(request, username,propertyid):
                     buyer.quantity = 0
                     investor = Investor()
                     investor.property = property
-                    investor.date = datetime.date()
+                    investor.user = buyer.user
+                    investor.date = datetime.date.today()
                     investor.purchase_price = buyer.price
-                    investor.rent_received = [0]
+                    investor.rent_received = "[0]"
                     investor.status = True
-                    investor.ownership_till = datetime.now()
+                    investor.ownership_till = datetime.datetime.now()
+
+                    property.current_price = buyer.price
+                    prices = property.getPrices()
+                    prices.append(float(buyer.price))
+                    print(prices)
+                    property.assignPrices(prices)
+
+                    dates = property.getPrices()
+                    dates.append(str(datetime.datetime.now()))
+                    print(dates)
+                    property.assignDates(dates)
+
                     buyer.delete()
                     break
                 elif seller.quantity < buyer.quantity:
@@ -60,10 +73,21 @@ def invest(request, username,propertyid):
                     investor = Investor.objects.filter(investor=seller).first()
                     investor.status = False
                     seller.quantity = 0
+
+                    property.current_price = buyer.price
+                    prices = property.getPrices()
+                    prices.append(float(buyer.price))
+                    property.assignPrices(prices)
+
+                    dates = property.getPrices()
+                    dates.append(str(datetime.datetime.now()))
+
+                    property.assignDates(dates)
+
                     seller.delete()
                     break
 
-    return render(request, 'property/invest.html', context)    
+    return render(request, 'property/invest.html', context)
 
 
 def allprop(request, ctgr):

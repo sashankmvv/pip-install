@@ -69,7 +69,7 @@ class Property(models.Model):
         Args:
             x (list): list of dates for current property
         """
-        self.time_series = json.dumps(x)
+        self.date_series = json.dumps(x)
 
     def getDates(self):
         """assigns list of dates w.r.t price for current property as a string
