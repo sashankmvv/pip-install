@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from .forms import NewUserForm
 from django.contrib.auth import login
 from user.models import Profile
+from django.contrib.auth import authenticate, login as djangologin
 
 def register_request(request):
 	if request.method == "POST":
@@ -37,3 +38,12 @@ def enterDetails(request, user):
         post.save()
         return render(request=request, template_name="user/login.html")
     return render (request=request, template_name="user/enterDetails.html", context={"user":user})
+
+def login(request):
+    if request.method=="POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username = username, password = password)
+        if user is not None:
+            return redirect("Home")
+    return render (request=request, template_name="user/login.html")
