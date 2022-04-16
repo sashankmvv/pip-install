@@ -23,8 +23,8 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('property.urls')),
-    path('user/', include('user.urls')),
+    path('property/', include('property.urls')),
+    path('', include('user.urls')),
     path('portfolio/', include('investor.urls')),
     # path('investoshare/', include('investoshare.urls')),
 ]

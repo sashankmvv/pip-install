@@ -47,6 +47,10 @@
                     <li class="nav-item">
                         <a class="nav-link active px-3 " aria-current="page" href="{% url 'Home' %}">Home</a>
                     </li>
+                    <li class="nav-item">
+                        
+                        <a class="nav-link active px-3 " aria-current="page" href="{% url 'investor:portfolio-holdings' profile.aadhar_number%}">Investments</a>
+                    </li>
                     
                     <form class="form navbar-nav mr-auto ml-auto" id="navBarSearchForm">
                         <input class="form-control mr-sm-2 search" type="search" placeholder="Search"

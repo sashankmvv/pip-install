@@ -77,7 +77,7 @@ class Property(models.Model):
         Returns:
             list: list of dates for current property
         """
-        return json.loads(self.time_series)
+        return json.loads(self.date_series)
 
     def __str__(self):
         return self.property_name

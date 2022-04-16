@@ -12,43 +12,46 @@ from user.models import Profile
 
 def get_holding(request, investor_id):
     investor = Profile.objects.filter(aadhar_number=investor_id).first()
-    inv1=investor
     investor = Investor.objects.filter(investor=investor)
-    owner = Profile.objects.filter(aadhar_number=investor_id).first()
-    property_list = Property.objects.filter(owner=owner)
-    print(property_list)
-    for inv,x in zip(investor,property_list):
-        print(x.current_price)
-    print(type(inv.purchase_price))
+    print(investor)
+    property_list=[Property.objects.filter(propertyid=x.property.propertyid).first() for x in investor]
+    print("P",property_list)
+    # owner = Profile.objects.filter(aadhar_number=investor_id).first()
+    # property_list = Property.objects.filter(owner=owner)
+    # print(property_list)
+    # for inv,x in zip(investor,property_list):
+    #     print(x.current_price)
+    # print(type(inv.purchase_price))
     profit_loss = [int(x.current_price-inv.purchase_price) for inv,x in zip(investor,property_list)]
     
     investor3 = Profile.objects.filter(aadhar_number=investor_id).first()
     print(investor3.aadhar_number)
-
-
+    print(profit_loss)
+    print(property_list)
     context = {
         'request':investor3,
-       'pl':zip(profit_loss,property_list),
-       'investor':Investor.objects.filter(investor=inv1).first()
-    #    'investor_listing': property_list
+       'profit_prop_inv':zip(profit_loss,property_list,investor),
+        
+    #    'investor':zip(Investor.objects.filter(investor=inv1).last(),profit_loss)
+      
     }
     
     # return render(request, 'investor/holding.html', context)
     return render(request, 'investor/investments.html', context)
 
 
-# def get_listing(request, investor_id):
-#     owner = Profile.objects.filter(aadhar_number=investor_id)
-#     property = Property.objects.filter(owner=owner)
+# def get_listing(request):
+#     # owner = Profile.objects.filter(aadhar_number=investor_id)
+#     # property = Property.objects.filter(owner=owner)
 
-#     context = {
-#         'investor_listing':property
+#     # context = {
+#     #     'investor_listing':property
 
-#     }
+#     # }
 
-#     print(context)
-#     # return render(request, 'investor/holding.html', context)
-#     return  render(request, 'investor/investments.html', context)
+#     # print(context)
+#     # # return render(request, 'investor/holding.html', context)
+#     return  render(request, 'investor/investments.html')
 
 # def buy(request,property):
 #     property = Property.objects.filter(propertyid=property).first()

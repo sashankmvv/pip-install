@@ -128,3 +128,8 @@ font-size: 16px;
 background-color:  rgb(198,151,56);
 
 }
+
+.btn {
+  outline: none;
+
+}

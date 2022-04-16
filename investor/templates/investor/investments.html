@@ -20,18 +20,19 @@
     </thead>
     <tbody>   
 
-   
-   {% for inv,pro in pl %}
-    
+     
+   {% for prof,prop,investor in profit_prop_inv %}
+  {% if investor.status %}
    <tr class="clickable text-center" >
-       <td> {{ pro.property_name }} </td>
+       <td> {{ prop.property_name }} </td>
        <td> {{ investor.purchase_price }} </td>
        <td> {{ investor.date }} </td>
-       <td>{{ pro.current_price }} </td>
-       <td>{{inv}}</td>
+       <td>{{ prop.current_price }} </td>
+       <td>{{prof}}</td>
       
        
     </tr>
+    {% endif %}
   {% endfor %}
   </tbody>
    </table>

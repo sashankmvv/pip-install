@@ -77,14 +77,9 @@
 
                             <input class=" btn" type="submit" value="Sell">
                         </div>
-                        <div class="col-lg-9">
-
-                            <input class=" btn" type="submit" value="Sell">
-                        </div>
+                        
                     </form>
-                    <a href="#" class="btn btn-outline-primary btn-sm">
-                        Sell
-                    </a>
+                   
 
                 </div>
             </div>
@@ -140,4 +135,9 @@
         config
     );
 </script>
+<script>
+    if ( window.history.replaceState ) {
+      window.history.replaceState( null, null, window.location.href );
+    }
+    </script>
 {% endblock scripts%}

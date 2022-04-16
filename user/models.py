@@ -12,7 +12,7 @@ def user_directory_path(instance, filename):
 class Profile(models.Model):
     # userAuth = models.OneToOneField(User, on_delete=models.CASCADE, blank=True )
     userAuth = models.ForeignKey(User, on_delete=models.CASCADE, default="")
-
+ 
     # personal details
     aadhar_number = models.IntegerField(primary_key=True)
     pan_number = models.IntegerField()

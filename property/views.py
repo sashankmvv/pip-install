@@ -1,5 +1,8 @@
 import datetime
 from operator import itemgetter
+
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 from user.models import Profile
 from django.shortcuts import redirect, render
 from property.models import Property, Photos
@@ -16,24 +19,26 @@ def home(request):
     warehouse_random_items = random.sample(warehouse_items, 3)
     wpids = [warehouse_random_items[i].propertyid for i in range(3)]
     photos = [list(Photos.objects.filter(property=wpid))[0] for wpid in wpids]
+
+ 
     # print(photos)
     # for x in photos:
     #      print(list(x)[0].photo)
-    # office_items = list(Property.objects.filter(category='office-properties'))
-    # office_random_items = random.sample(office_items, 3)
-    # residential_items = list(Property.objects.filter(category='Residential-apartment'))
-    # residential_random_items = random.sample(residential_items, 3)
-    # context = {'warehouse_random_items': warehouse_random_items, 'office_items': office_items, 'residential_items': residential_items}
-    context = {'warehouse_random_items': zip(warehouse_random_items, photos)}
+    office_items = list(Property.objects.filter(category='office-properties'))
+    office_random_items = random.sample(office_items, 3)
+    residential_items = list(Property.objects.filter(category='Residential-apartment'))
+    residential_random_items = random.sample(residential_items, 3)
+    wpids2 = [office_random_items[i].propertyid for i in range(3)]
+    photos2 = [list(Photos.objects.filter(property=wpid))[0] for wpid in wpids2]
+    wpids3 = [residential_random_items[i].propertyid for i in range(3)]
+    photos3 = [list(Photos.objects.filter(property=wpid))[0] for wpid in wpids3]
+    context = {'warehouse_random_items':zip(warehouse_random_items, photos), 'office_random_items': zip(office_random_items, photos2),'residential_random_items': zip(residential_random_items, photos3)}
+    # context = {'warehouse_random_items': zip(warehouse_random_items, photos)}
 
     return render(request, 'property/home.html', context)
 
 
 def invest(request, propertyid):
-<<<<<<< HEAD
-=======
-    print("abc")
->>>>>>> 6eaed036d6504abdbd7df88a6c91142db34b5f5d
     labels = []
     data = []
     queryset = Property.objects.filter(propertyid=propertyid).first()
@@ -192,14 +197,38 @@ def buy(request, property):
             context = {
                 'buyprop': post,
             }
+            print(property.current_price)
             match(request, property.propertyid)
+            labels = []
+            data = []
+            property = Property.objects.filter(propertyid=property.propertyid).first()
+            print(property.current_price)
+            
 
+            ps = ast.literal_eval(property.price_series)
+            ds = ast.literal_eval(property.date_series)
+
+            for i in range(len(ps)):
+                data.append(ps[i])
+                labels.append(ds[i])
+            
+
+            
             user = request.user
             user = Profile.objects.filter(userAuth=user).first()
             context = {
+                'property': property,
+                'labels': labels,
+                'data': data,
+                'user': user,
                 'buyprop': post,
             }
-            return render(request, 'property/invest.html', context)
+
+            
+            
+            # return redirect ('property.views.invest', context)
+            return HttpResponseRedirect(reverse('Invest', args=(),kwargs={'propertyid':property.propertyid}),context)
+            # return render(request, 'property/invest.html', context)
 
         elif request.POST.get('sellprice') and request.POST.get('sellquantity'):
             post = BuyNSell()
@@ -209,12 +238,29 @@ def buy(request, property):
             post.price = request.POST.get('sellprice')
             post.status = False
             post.save()
+            match(request, property.propertyid)
+            labels = []
+            data = []
+            property = Property.objects.filter(propertyid=property.propertyid).first()
+            ps = ast.literal_eval(property.price_series)
+            ds = ast.literal_eval(property.date_series)
+
+            for i in range(len(ps)):
+                data.append(ps[i])
+                labels.append(ds[i])
+            
+
+            user = request.user
             context = {
+                'property': property,
+                'labels': labels,
+                'data': data,
+                'user': user,
                 'sellprop': post,
             }
-            match(request, property.propertyid)
-
-            return render(request, 'property/invest.html', context)
+            # return redirect ('property.views.invest', context)
+            return HttpResponseRedirect(reverse('Invest', args=(),kwargs={'propertyid':property.propertyid}),context)
+            # return render(request, 'property/invest.html', context)
 
 
 def match(request, propertyid):
